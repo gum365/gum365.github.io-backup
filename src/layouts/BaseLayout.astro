@@ -26,7 +26,8 @@ const alternate = new URL(alternateHref, Astro.site).href;
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f94c10" />
-    <link rel="icon" href="/gum365-icon.png" type="image/png" sizes="92x92" />\n    <link rel="shortcut icon" href="/gum365-icon.png" type="image/png" />
+    <link rel="icon" href="/gum365-icon-v2.png" type="image/png" sizes="92x92" />
+    <link rel="shortcut icon" href="/gum365-icon-v2.png" type="image/png" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang={isEnglish ? 'fr-CA' : 'en-CA'} href={alternate} />
     <link rel="alternate" hreflang={lang} href={canonical} />
@@ -48,7 +49,7 @@ const alternate = new URL(alternateHref, Astro.site).href;
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href={isEnglish ? '/en-ca/' : '/'} aria-label="GUM365">
-          <img class="brand-logo" src="/gum365-icon.png" width="42" height="42" alt="" />
+          <img class="brand-logo" src="/gum365-icon-v2.png" width="42" height="42" alt="" />
           <span class="brand-name">GUM365</span>
         </a>
 
