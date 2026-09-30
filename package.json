@@ -1,27 +1,21 @@
 {
-  "name": "minimal-mistakes",
+  "name": "gum365-github-io",
+  "version": "1.0.0",
   "private": true,
-  "version": "4.28.1",
-  "description": "Minimal Mistakes 2 column Jekyll theme.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mmistakes/minimal-mistakes.git"
+  "type": "module",
+  "packageManager": "pnpm@10.15.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
   },
-  "keywords": [
-    "jekyll",
-    "theme",
-    "minimal"
-  ],
-  "author": "Michael Rose",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mmistakes/minimal-mistakes/issues"
-  },
-  "homepage": "https://mmistakes.github.io/minimal-mistakes/",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "devDependencies": {
-    "uglify-js": "^3.17.4"
+  "dependencies": {
+    "@astrojs/check": "^0.9.7",
+    "@astrojs/sitemap": "^3.7.1",
+    "@fontsource-variable/manrope": "^5.2.8",
+    "@fontsource-variable/outfit": "^5.2.8",
+    "astro": "6.0.0",
+    "typescript": "^5.7.0"
   }
 }

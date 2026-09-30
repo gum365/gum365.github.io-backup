@@ -1,0 +1,106 @@
+---
+import '../styles/global.css';
+import { hrefFor, type PageEntry } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: 'fr-CA' | 'en-CA';
+  nav: PageEntry[];
+  currentHref: string;
+  alternateHref: string;
+}
+
+const { title, description, lang, nav, currentHref, alternateHref } = Astro.props;
+const isEnglish = lang === 'en-CA';
+const frHref = isEnglish ? alternateHref : currentHref;
+const enHref = isEnglish ? currentHref : alternateHref;
+const canonical = new URL(currentHref, Astro.site).href;
+const alternate = new URL(alternateHref, Astro.site).href;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f94c10" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={isEnglish ? 'fr-CA' : 'en-CA'} href={alternate} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="GUM365" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <title>{title}</title>
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem('theme');
+        const dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', dark);
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href={isEnglish ? '/en-ca/' : '/'} aria-label="GUM365">
+          <span class="brand-mark">G</span>
+          <span class="brand-name">GUM365</span>
+        </a>
+
+        <nav class="main-nav" aria-label={isEnglish ? 'Main navigation' : 'Navigation principale'}>
+          {nav.map((item) => (
+            <a class:list={['nav-link', { active: hrefFor(item) === currentHref }]} href={hrefFor(item)}>
+              {item.data.nav_label}
+            </a>
+          ))}
+        </nav>
+
+        <div class="header-actions">
+          <label class="sr-only" for="locale-switch">{isEnglish ? 'Language' : 'Langue'}</label>
+          <select id="locale-switch" class="control" data-fr={frHref} data-en={enHref} aria-label={isEnglish ? 'Language' : 'Langue'}>
+            <option value="fr-CA" selected={!isEnglish}>FR_CA</option>
+            <option value="en-CA" selected={isEnglish}>EN_CA</option>
+          </select>
+          <button id="theme-toggle" class="icon-button" type="button" aria-label={isEnglish ? 'Toggle light or dark theme' : 'Changer le thème clair ou sombre'}>
+            <span class="theme-light" aria-hidden="true">☾</span>
+            <span class="theme-dark" aria-hidden="true">☀</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main><slot /></main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <strong>GUM365</strong>
+          <p>{isEnglish ? 'Microsoft 365 community in Montréal.' : 'Communauté Microsoft 365 à Montréal.'}</p>
+        </div>
+        <p>{isEnglish ? 'Astro + Velocity presentation · OKF knowledge layer.' : 'Présentation Astro + Velocity · couche de connaissance OKF.'}</p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      document.getElementById('theme-toggle')?.addEventListener('click', () => {
+        const root = document.documentElement;
+        const dark = !root.classList.contains('dark');
+        root.classList.toggle('dark', dark);
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      });
+
+      const locale = document.getElementById('locale-switch');
+      locale?.addEventListener('change', (event) => {
+        const target = event.currentTarget;
+        if (!(target instanceof HTMLSelectElement)) return;
+        const href = target.value === 'en-CA' ? target.dataset.en : target.dataset.fr;
+        if (href) window.location.href = href;
+      });
+    </script>
+  </body>
+</html>
