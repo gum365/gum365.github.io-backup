@@ -28,6 +28,10 @@ knowledge/okf/
     └── about.md
 ```
 
+## Origine du thème
+
+La couche de présentation est dérivée de [Velocity](https://github.com/southwellmedia/velocity), distribué sous licence MIT. Le fichier `LICENSE` d’origine est conservé dans ce dépôt.
+
 ## Développement
 
 ```bash
